@@ -70,9 +70,10 @@ int main(int argc, char** argv) {
     cout << status_type.c_str() << endl;
     bool is_tot = (status_type.compare("Tot") == 0 ? true : false);
     bool is_ele = (status_type.compare("Ele") == 0 ? true : false);
+    bool is_mueg = (status_type.compare("MuEG") == 0 ? true : false);
     bool is_mu = (status_type.compare("Mu") == 0 ? true : false);
-    if (!(is_tot || is_ele || is_mu))
-        cout << "xxxxx Error, please slecet between: Tot || Ele || Mu " << endl;
+    if (!(is_tot || is_ele || is_mu || is_mueg))
+        cout << "xxxxx Error, please slecet between: Tot || Ele || MuEG || Mu " << endl;
 
     //#################################################################################################
     //############## Third anad Forth Argument,   OutPut Name/ Input Files                         ########################
@@ -340,7 +341,7 @@ int main(int argc, char** argv) {
             //##############################################################################
             // MET
             //##############################################################################
-            if (is_ele || is_tot) {
+            if (is_mueg || is_tot) {
                 if (BareTau.size() > 0 && BareElectron.size() > 0 && BareMuon.size() > 0 && Trigger) {
                     for (int i = 0; i < BareMuon.size(); i++) {
                         for (int k = 0; k < BareElectron.size(); k++) {
