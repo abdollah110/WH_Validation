@@ -176,42 +176,42 @@ int main(int argc, char** argv) {
 
 
     //###############################################################################################
-    //######################################################
-    //Booking MVA just once
-    //######################################################
-    TMVA::Reader *reader = new TMVA::Reader("!Color:!Silent");
-
-
-    reader->AddVariable("N_LT", &N_LT);
-    reader->AddVariable("N_MET", &N_MET);
-    reader->AddVariable("N_l3_tauIsoMVA2raw", &N_IsoTau1);
-    reader->AddVariable("N_l4_tauIsoMVA2raw", &N_IsoTau2);
-
-
-    TString dir = "Weight_emu/";
-    TString prefix = "TMVAClassification";
-
-    // Book method(s)
-    TString methodName = TString("KNN") + TString(" method");
-    TString weightfile = dir + prefix + TString("_") + TString("KNN") + TString(".weights.xml");
-    reader->BookMVA(methodName, weightfile);
-    //######################################################
-    //TREE FOR MVA
-    //######################################################
-
-    float N_LT, N_MET;
-    float N_l3_tauIsoMVA2raw, N_l4_tauIsoMVA2raw, N_IsoTot;
-    float N_l3_LepId, N_l3_LepIso, N_TMass;
-
-    // MVA for LLTT ######################################################
-    TTree * MVATree = new TTree("MVATree", "MVATree");
-    // To force a memory-resident Tree
-    MVATree->SetDirectory(0);
-    MVATree->Branch("N_LT", &N_LT, "N_LT/F");
-    MVATree->Branch("N_MET", &N_MET, "N_MET/F");
-    MVATree->Branch("N_l3_tauIsoMVA2raw", &N_l3_tauIsoMVA2raw, "N_l3_tauIsoMVA2raw/F");
-    MVATree->Branch("N_l4_tauIsoMVA2raw", &N_l4_tauIsoMVA2raw, "N_l4_tauIsoMVA2raw/F");
-    MVATree->Branch("N_IsoTot", &N_IsoTot, "N_IsoTot/F");
+    //    //######################################################
+    //    //Booking MVA just once
+    //    //######################################################
+    //    TMVA::Reader *reader = new TMVA::Reader("!Color:!Silent");
+    //
+    //
+    //    reader->AddVariable("N_LT", &N_LT);
+    //    reader->AddVariable("N_MET", &N_MET);
+    //    reader->AddVariable("N_l3_tauIsoMVA2raw", &N_IsoTau1);
+    //    reader->AddVariable("N_l4_tauIsoMVA2raw", &N_IsoTau2);
+    //
+    //
+    //    TString dir = "Weight_emu/";
+    //    TString prefix = "TMVAClassification";
+    //
+    //    // Book method(s)
+    //    TString methodName = TString("KNN") + TString(" method");
+    //    TString weightfile = dir + prefix + TString("_") + TString("KNN") + TString(".weights.xml");
+    //    reader->BookMVA(methodName, weightfile);
+    //    //######################################################
+    //    //TREE FOR MVA
+    //    //######################################################
+    //
+    //    float N_LT, N_MET;
+    //    float N_l3_tauIsoMVA2raw, N_l4_tauIsoMVA2raw, N_IsoTot;
+    //    float N_l3_LepId, N_l3_LepIso, N_TMass;
+    //
+    //    // MVA for LLTT ######################################################
+    //    TTree * MVATree = new TTree("MVATree", "MVATree");
+    //    // To force a memory-resident Tree
+    //    MVATree->SetDirectory(0);
+    //    MVATree->Branch("N_LT", &N_LT, "N_LT/F");
+    //    MVATree->Branch("N_MET", &N_MET, "N_MET/F");
+    //    MVATree->Branch("N_l3_tauIsoMVA2raw", &N_l3_tauIsoMVA2raw, "N_l3_tauIsoMVA2raw/F");
+    //    MVATree->Branch("N_l4_tauIsoMVA2raw", &N_l4_tauIsoMVA2raw, "N_l4_tauIsoMVA2raw/F");
+    //    MVATree->Branch("N_IsoTot", &N_IsoTot, "N_IsoTot/F");
 
     //###############################################################################################
     //Just each categori should be filled once
@@ -267,7 +267,9 @@ int main(int argc, char** argv) {
         //####################################################
         // EMT FakeRateation
         //####################################################
-
+        //1:14183:4254081
+        //        1:14876:4461822
+        //        1:8482:2544080
         bool SS_dilep = l1Charge * l2Charge > 0;
         Mu1Id = l1_muId > 0;
         Mu1Iso = (abs(l1Eta) < 1.479 && l1_muIso < 0.15) || (fabs(l1Eta) > 1.479 && l1_muIso < 0.10);
@@ -279,15 +281,33 @@ int main(int argc, char** argv) {
         bool Ele2_chargeConsistancy1 = l2_isGsfCtfScPixChargeConsistent == l2_isGsfCtfChargeConsistent;
         bool Ele2_chargeConsistancy2 = l2_isGsfCtfScPixChargeConsistent == l2_isGsfScPixChargeConsistent;
         //        bool Mu2MatchedTrg = l2_muTrgObjMatch;
-        tauIso = l3_tauIso3HitL && l3_tauRejEleMVA3L && l3_tauRejMu2T;
+        bool tauIso_1 = l3_tauIso3HitL;
+//        bool tauIso_2 = l3_tauRejEleMVA3L;
+        bool tauIso_3 = l3_tauRejMu2T;
         Mass_m1m2 = InvarMass_F(l1E, l2E, l1Px, l2Px, l1Py, l2Py, l1Pz, l2Pz) > 20;
         bool Mass_ele2tau = InvarMass_F(l3E, l2E, l3Px, l2Px, l3Py, l2Py, l3Pz, l2Pz) > 20;
         float Mass_ele2tauDiff = fabs(InvarMass_F(l3E, l2E, l3Px, l2Px, l3Py, l2Py, l3Pz, l2Pz) - 90);
-        bool MassReq = (Mass_ele2tauDiff < 20 && l3_tauRejEleMVA3M) || (Mass_ele2tauDiff > 20 && l3_tauRejEleMVA3L);
-        Jest1Lep = mu_Size == 1 && electron_Size == 1 && tau_Size == 1;
+        bool MassReq = (Mass_ele2tauDiff < 20 && l3_tauRejEleMVA3M) || (Mass_ele2tauDiff > 20 && l3_tauRejEleL);
+        bool Jest1mu = mu_Size == 1;
+        bool Jest1ele = electron_Size == 1;
+        bool Jest1tau = tau_Size == 1;
         OS_Charge_lt = l1Charge * l3Charge < 0;
-        bool selectEMT = OS_Charge_lt && MassReq && Ele2Conversion && Ele2MissingHit && Ele2_chargeConsistancy1 && Ele2_chargeConsistancy2 && Mass_ele2tau && Jest1Lep && SS_dilep && Mu1Id && Mu1Iso && Ele2Id && Ele2Iso && tauIso && Mass_m1m2 && Mass_ele2tau;
+        bool selectEMT = Jest1mu && Jest1ele && Jest1tau && OS_Charge_lt && MassReq && Ele2Conversion && Ele2MissingHit && Ele2_chargeConsistancy1 && Ele2_chargeConsistancy2 && Mass_ele2tau && SS_dilep && Mu1Id && Mu1Iso && Ele2Id && Ele2Iso && tauIso_1 && tauIso_3 && Mass_m1m2 && Mass_ele2tau;
 
+        //        if (Run == 1 && Lumi == 10418 && Event == 3124773) {  0111111001111011 && 0111111011111011
+        //        if (Run == 1 && Lumi == 14843 && Event == 4452052) { 1111111011111011
+        //        if (Run == 1 && Lumi == 4443 && Event == 1332579) {  1111111011111011
+        //        if (Run == 1 && Lumi == 3540 && Event == 1061742) {  ?
+        //        if (Run == 1 && Lumi == 3613 && Event == 1083612) {  1111111011111111
+                if (Run == 1 && Lumi == 4730 && Event == 1418702) { //1111111011111011
+//                if (Run == 1 && Lumi == 6414 && Event == 1923808) { //1111111111111011
+        //        if (Run == 1 && Lumi == 6414 && Event == 1416276) { //?
+//                if (Run == 1 && Lumi == 2713 && Event == 813578) { //1111111011111011
+//        if (Run == 1 && Lumi == 16960 && Event == 5086744) { //?
+            cout << Run << " " << Lumi << " " << Event << "\n";
+            cout << Jest1mu << Jest1ele << Jest1tau << OS_Charge_lt << MassReq << Ele2Conversion << Ele2MissingHit << Ele2_chargeConsistancy1 << Ele2_chargeConsistancy2 << Mass_ele2tau << SS_dilep << Mu1Id << Mu1Iso << Ele2Id << Ele2Iso << tauIso_1 <<  tauIso_3 << Mass_m1m2 << Mass_ele2tau << endl;
+
+        }
 
         if (Channel == 2 && selectEMT && (Event != Event_Double[1][2])) {
 

@@ -81,7 +81,7 @@ vector<myobject> NoIdIsoMuon(myevent *m) {
         bool muTracker = muon[i].isTrackerMuon;
         bool intrkLayerpixel_ = muon[i].intrkLayerpixel > 1;
 
-        if (muPt > 10 && TMath::Abs(muEta) < 2.4 && (muGlobal || muTracker) && intrkLayerpixel_)
+        if (muPt > 5 && TMath::Abs(muEta) < 2.4 && (muGlobal || muTracker) && intrkLayerpixel_)
             bareMuon.push_back(muon[i]);
     }
     sort(bareMuon.begin(), bareMuon.end(), myobject_grt());
@@ -135,7 +135,8 @@ vector<myobject> GoodTau(myevent *m) {
 
         if (tauPt > 20 && TMath::Abs(tauEta) < 2.3 &&
                 tau[i].discriminationByDecayModeFinding && tau[i].byLooseCombinedIsolationDeltaBetaCorr3Hits &&
-                tau[i].discriminationByElectronLoose && tau[i].discriminationByMuonLoose2)
+//                tau[i].discriminationByElectronLoose && tau[i].discriminationByMuonLoose2
+                )
             goodHPSTau.push_back(tau[i]);
     }
 
@@ -267,7 +268,7 @@ vector <myobject> myCleanLepton(myevent *m, string lep) {
         for (int a = 0; a < Electron_Vector.size(); a++) {
             bool Keep_obj = true;
             for (int b = 0; b < Muon_Vector.size(); b++) {
-                if (deltaR(Electron_Vector[a], Muon_Vector[b]) < 0.1)
+                if (deltaR(Electron_Vector[a], Muon_Vector[b]) < 0.4)
                     Keep_obj = false;
             }
             if (Keep_obj == true)
@@ -280,11 +281,11 @@ vector <myobject> myCleanLepton(myevent *m, string lep) {
         for (int a = 0; a < Tau_Vector.size(); a++) {
             bool Keep_obj = true;
             for (int b = 0; b < Electron_Vector.size(); b++) {
-                if (deltaR(Tau_Vector[a], Electron_Vector[b]) < 0.1)
+                if (deltaR(Tau_Vector[a], Electron_Vector[b]) < 0.4)
                     Keep_obj = false;
             }
             for (int c = 0; c < Muon_Vector.size(); c++) {
-                if (deltaR(Tau_Vector[a], Muon_Vector[c]) < 0.1)
+                if (deltaR(Tau_Vector[a], Muon_Vector[c]) < 0.4)
                     Keep_obj = false;
             }
             if (Keep_obj == true)
