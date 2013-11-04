@@ -134,7 +134,7 @@ vector<myobject> GoodTau(myevent *m) {
         float tauEta = tau[i].eta;
 
         if (tauPt > 20 && TMath::Abs(tauEta) < 2.3 &&
-                tau[i].discriminationByDecayModeFinding && tau[i].byLooseCombinedIsolationDeltaBetaCorr3Hits &&
+                tau[i].discriminationByDecayModeFinding && tau[i].byLooseCombinedIsolationDeltaBetaCorr3Hits 
 //                tau[i].discriminationByElectronLoose && tau[i].discriminationByMuonLoose2
                 )
             goodHPSTau.push_back(tau[i]);
