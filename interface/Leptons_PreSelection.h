@@ -171,7 +171,7 @@ vector<myobject> GoodJet(myevent *m) {
     for (int i = 0; i < Jet.size(); i++) {
         float JetPt = Jet[i].pt;
         float JetEta = Jet[i].eta;
-        if (JetPt > 10 && TMath::Abs(JetEta) < 5.0)
+        if (JetPt > 20 && TMath::Abs(JetEta) < 5.0)
             goodJet.push_back(Jet[i]);
     }
     sort(goodJet.begin(), goodJet.end(), myobject_grt());

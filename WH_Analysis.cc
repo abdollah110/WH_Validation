@@ -167,6 +167,9 @@ int main(int argc, char** argv) {
     Run_Tree->Branch("l1_isGsfCtfScPixChargeConsistent", &l1_isGsfCtfScPixChargeConsistent, "l1_isGsfCtfScPixChargeConsistent/O");
     Run_Tree->Branch("l1_isGsfScPixChargeConsistent", &l1_isGsfScPixChargeConsistent, "l1_isGsfScPixChargeConsistent/O");
     Run_Tree->Branch("l1_isGsfCtfChargeConsistent", &l1_isGsfCtfChargeConsistent, "l1_isGsfCtfChargeConsistent/O");
+    Run_Tree->Branch("l1_CloseJetPt", &l1_CloseJetPt, "l1_CloseJetPt/F");
+    Run_Tree->Branch("l1_CloseJetEta", &l1_CloseJetEta, "l1_CloseJetEta/F");
+    Run_Tree->Branch("l1_CloseJetPhi", &l1_CloseJetPhi, "l1_CloseJetPhi/F");
 
 
     Run_Tree->Branch("l2M", &l2M, "l2M/F");
@@ -190,6 +193,9 @@ int main(int argc, char** argv) {
     Run_Tree->Branch("l2_isGsfCtfScPixChargeConsistent", &l2_isGsfCtfScPixChargeConsistent, "l2_isGsfCtfScPixChargeConsistent/O");
     Run_Tree->Branch("l2_isGsfScPixChargeConsistent", &l2_isGsfScPixChargeConsistent, "l2_isGsfScPixChargeConsistent/O");
     Run_Tree->Branch("l2_isGsfCtfChargeConsistent", &l2_isGsfCtfChargeConsistent, "l2_isGsfCtfChargeConsistent/O");
+    Run_Tree->Branch("l2_CloseJetPt", &l2_CloseJetPt, "l2_CloseJetPt/F");
+    Run_Tree->Branch("l2_CloseJetEta", &l2_CloseJetEta, "l2_CloseJetEta/F");
+    Run_Tree->Branch("l2_CloseJetPhi", &l2_CloseJetPhi, "l2_CloseJetPhi/F");
 
     Run_Tree->Branch("l3M", &l3M, "l3M/F");
     Run_Tree->Branch("l3E", &l3E, "l3E/F");

@@ -56,6 +56,12 @@ int mu_partTight_Size, ele_partTight_Size;
 float l3_CloseJetPt;
 float l3_CloseJetEta;
 float l3_CloseJetPhi;
+float l1_CloseJetPt;
+float l1_CloseJetEta;
+float l1_CloseJetPhi;
+float l2_CloseJetPt;
+float l2_CloseJetEta;
+float l2_CloseJetPhi;
 bool l1_passConversionVeto, l2_passConversionVeto;
 bool l1_isGsfCtfScPixChargeConsistent;
 bool l1_isGsfScPixChargeConsistent;
@@ -124,6 +130,9 @@ void fillTree(TTree * Run_Tree, myevent *m, float cor_eff, float PU_Weight, int 
     l1_isGsfCtfScPixChargeConsistent = obj1.isGsfCtfScPixChargeConsistent;
     l1_isGsfScPixChargeConsistent = obj1.isGsfScPixChargeConsistent;
     l1_isGsfCtfChargeConsistent = obj1.isGsfCtfChargeConsistent;
+    l1_CloseJetPt = Find_Closet_Jet(obj1, m)[0];
+    l1_CloseJetEta = Find_Closet_Jet(obj1, m)[1];
+    l1_CloseJetPhi = Find_Closet_Jet(obj1, m)[2];
 
     l2M = obj2.mass;
     l2Px = obj2.px;
@@ -147,6 +156,9 @@ void fillTree(TTree * Run_Tree, myevent *m, float cor_eff, float PU_Weight, int 
     l2_isGsfCtfScPixChargeConsistent = obj2.isGsfCtfScPixChargeConsistent;
     l2_isGsfScPixChargeConsistent = obj2.isGsfScPixChargeConsistent;
     l2_isGsfCtfChargeConsistent = obj2.isGsfCtfChargeConsistent;
+    l2_CloseJetPt = Find_Closet_Jet(obj2, m)[0];
+    l2_CloseJetEta = Find_Closet_Jet(obj2, m)[1];
+    l2_CloseJetPhi = Find_Closet_Jet(obj2, m)[2];
 
     l3M = obj3.mass;
     l3Px = obj3.px;
