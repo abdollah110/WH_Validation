@@ -222,12 +222,12 @@ int bjet_Multiplicity(myevent *m) {
                 if (deltaR(jet[k], ele_[q]) < 0.4)
                     Nooverlap = false;
             }
-            /*
+
             for (int r = 0; r < tau_.size(); r++) {
-                       if (deltaR(jet[k], tau_[r]) < 0.4)
-                           Nooverlap = false;
-                   }
-             */
+                if (deltaR(jet[k], tau_[r]) < 0.4)
+                    Nooverlap = false;
+            }
+
             if (Nooverlap) num_bj++;
         }
 
