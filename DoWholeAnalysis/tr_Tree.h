@@ -42,13 +42,14 @@
 #include "makeHisto.h"
 //#include "../interface/zh_Auxiliary.h"
 #include "myHelper.h"
+#include "../interface/mvaXXX.h"
 
 
 
 int Channel = 0;
 int Run = 0;
 int Lumi = 0;
-int Event = 0;
+int myEvent = 0;
 float IMass = 0;
 float ZMass = 0;
 float HMass = 0;
@@ -79,6 +80,7 @@ double SVMass, SVMassUnc;
 double SVMassUp, SVMassUncUp;
 double SVMassDown, SVMassUncDown;
 bool l1_muTrgObjMatch, l2_muTrgObjMatch, l1_eleTrgObjMatch, l2_eleTrgObjMatch;
+bool l1_muTrgObjMatchMed, l2_muTrgObjMatchMed, l1_eleTrgObjMatchMed, l2_eleTrgObjMatchMed;
 
 bool l1_passConversionVeto, l2_passConversionVeto;
 bool l1_isGsfCtfScPixChargeConsistent;
@@ -87,6 +89,13 @@ bool l1_isGsfCtfChargeConsistent;
 bool l2_isGsfCtfScPixChargeConsistent;
 bool l2_isGsfScPixChargeConsistent;
 bool l2_isGsfCtfChargeConsistent;
+
+float l1_CloseJetPt;
+float l1_CloseJetEta;
+float l1_CloseJetPhi;
+float l2_CloseJetPt;
+float l2_CloseJetEta;
+float l2_CloseJetPhi;
 
 
 //New BG_Tree

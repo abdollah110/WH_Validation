@@ -115,7 +115,7 @@ int main(int argc, char** argv) {
     Run_Tree->Branch("Channel", &Channel, "Channel/I");
     Run_Tree->Branch("Run", &Run, "Run/I");
     Run_Tree->Branch("Lumi", &Lumi, "Lumi/I");
-    Run_Tree->Branch("Event", &Event, "Event/I");
+    Run_Tree->Branch("Event", &myEvent, "Event/I");
     Run_Tree->Branch("IMass", &IMass, "IMass/F");
     Run_Tree->Branch("ZMass", &ZMass, "ZMass/F");
     Run_Tree->Branch("HMass", &HMass, "HMass/F");
@@ -163,6 +163,8 @@ int main(int argc, char** argv) {
     Run_Tree->Branch("l1_eleNumHit", &l1_eleNumHit, "l1_eleNumHit/F");
     Run_Tree->Branch("l1_muTrgObjMatch", &l1_muTrgObjMatch, "l1_muTrgObjMatch/O");
     Run_Tree->Branch("l1_eleTrgObjMatch", &l1_eleTrgObjMatch, "l1_eleTrgObjMatch/O");
+    Run_Tree->Branch("l1_muTrgObjMatchMed", &l1_muTrgObjMatchMed, "l1_muTrgObjMatchMed/O");
+    Run_Tree->Branch("l1_eleTrgObjMatchMed", &l1_eleTrgObjMatchMed, "l1_eleTrgObjMatchMed/O");
     Run_Tree->Branch("l1_passConversionVeto", &l1_passConversionVeto, "l1_passConversionVeto/O");
     Run_Tree->Branch("l1_isGsfCtfScPixChargeConsistent", &l1_isGsfCtfScPixChargeConsistent, "l1_isGsfCtfScPixChargeConsistent/O");
     Run_Tree->Branch("l1_isGsfScPixChargeConsistent", &l1_isGsfScPixChargeConsistent, "l1_isGsfScPixChargeConsistent/O");
@@ -189,6 +191,8 @@ int main(int argc, char** argv) {
     Run_Tree->Branch("l2_eleNumHit", &l2_eleNumHit, "l2_eleNumHit/F");
     Run_Tree->Branch("l2_muTrgObjMatch", &l2_muTrgObjMatch, "l2_muTrgObjMatch/O");
     Run_Tree->Branch("l2_eleTrgObjMatch", &l2_eleTrgObjMatch, "l2_eleTrgObjMatch/O");
+    Run_Tree->Branch("l2_muTrgObjMatchMed", &l2_muTrgObjMatchMed, "l2_muTrgObjMatchMed/O");
+    Run_Tree->Branch("l2_eleTrgObjMatchMed", &l2_eleTrgObjMatchMed, "l2_eleTrgObjMatchMed/O");
     Run_Tree->Branch("l2_passConversionVeto", &l2_passConversionVeto, "l2_passConversionVeto/O");
     Run_Tree->Branch("l2_isGsfCtfScPixChargeConsistent", &l2_isGsfCtfScPixChargeConsistent, "l2_isGsfCtfScPixChargeConsistent/O");
     Run_Tree->Branch("l2_isGsfScPixChargeConsistent", &l2_isGsfScPixChargeConsistent, "l2_isGsfScPixChargeConsistent/O");

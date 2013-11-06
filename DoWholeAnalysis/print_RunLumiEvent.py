@@ -25,28 +25,23 @@ import numpy as n
 import os
 
 
-def _Print_RLE(file_,tree_,channel,Out):
+def _Print_RLE(file_,tree_,channel):
     myFile = ROOT.TFile.Open(file_, "READ")
     myTree = myFile.Get(tree_)
     
     
-    Run = n.zeros(1, dtype=float)
-    Lumi = n.zeros(1, dtype=float)
-    Event = n.zeros(1, dtype=float)
+
     
     for entry in xrange(myTree.GetEntries()):
-#                if (entry % 10000 == 0): print "Entry is : ", entry
                 myTree.GetEntry(entry)
-                if (myTree.Channel_==2):
-                    Run[0] = myTree.Run_
-                    Lumi[0] = myTree.Lumi_
-                    Event[0] = myTree.Event_
-                    print int(Run[0]),":",int(Lumi[0]),":",int(Event[0])
+                if (myTree.Channel_==channel and myTree.subChannel_==1):
+                    print int(myTree.Run_),":",int(myTree.Lumi_),":",int(myTree.myEvent_)
     return 0
     
 
 
 
 if __name__ == "__main__":
-    _Print_RLE("test.root", "BG_Tree", 1,"rle_mmt.root")
-#    _print_RLE("file.root", "BG_Tree", 1,"rle_mmt.root")
+    _Print_RLE("outWZJet.root", "BG_Tree", 2)
+
+#    _Print_RLE("test.root", "BG_Tree", 1,"rle_mmt.root")
