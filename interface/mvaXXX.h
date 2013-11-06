@@ -30,35 +30,20 @@
 
 using namespace TMVA;
 
-Float_t N_LT, N_IsoTau1, N_IsoTau2, N_IsoTot, N_MET;
-
-float mvaXXX(TMVA::Reader *reader, float val_N_LT = 20, float val_N_MET = 20, float val_N_IsoTau1 = 20, float val_N_IsoTau2 = 20) {
-    //#ifdef __CINT__
+float muonJetPt, muonPt, numJets20 ;
+float KNNforMuon(TMVA::Reader *reader, float muonJetPt_ = 20, float muonPt_ = 20, float numJets20_ = 20) {
     gROOT->ProcessLine(".O0"); // turn off optimization in CINT
-    //#endif
+    muonJetPt = muonJetPt_;
+    muonPt = muonPt_;
+    numJets20 = numJets20_;
+    return reader->EvaluateMVA("KNN method");
+}
 
-    //---------------------------------------------------------------
-
-    // This loads the library
-    //    TMVA::Tools::Instance();
-
-
-    //    std::cout << "==> Start TMVAClassificationApplication" << std::endl;
-
-    // --- Create the Reader object
-
-
-
-
-    N_LT = val_N_LT;
-    N_MET = val_N_MET;
-    N_IsoTau1 = val_N_IsoTau1;
-    N_IsoTau2 = val_N_IsoTau2;
-
-
-    //    return 88;
-    return reader->EvaluateMVA("BDT method");
-
-    //    delete reader;
-
+float electronJetPt, electronPt;
+float KNNforElectron(TMVA::Reader *reader, float electronJetPt_ = 20, float electronPt_ = 20, float numJets20_ = 20) {
+    gROOT->ProcessLine(".O0"); // turn off optimization in CINT
+    electronJetPt = electronJetPt_;
+    electronPt = electronPt_;
+    numJets20 = numJets20_;
+    return reader->EvaluateMVA("KNN method");
 }

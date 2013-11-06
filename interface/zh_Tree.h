@@ -32,7 +32,7 @@
 unsigned int Channel = 0;
 unsigned int Run = 0;
 unsigned int Lumi = 0;
-unsigned int Event = 0;
+unsigned int myEvent = 0;
 float IMass = 0;
 float ZMass = 0;
 float HMass = 0;
@@ -46,6 +46,7 @@ bool l3_tauIsoL, l3_tauIsoM, l3_tauIsoT, l3_tauRejMuL, l3_tauRejMuM, l3_tauRejMu
 bool l3_tauIso3HitL, l3_tauIso3HitM, l3_tauIso3HitT, l3_tauRejMu2L, l3_tauRejMu2M, l3_tauRejMu2T, l3_tauRejEleMVA3L, l3_tauRejEleMVA3M, l3_tauRejEleMVA3T;
 bool l3_tauIsoVL, l3_tauIsoMVA2L, l3_tauIsoMVA2M, l3_tauIsoMVA2T;
 bool l1_muTrgObjMatch, l2_muTrgObjMatch, l1_eleTrgObjMatch, l2_eleTrgObjMatch;
+bool l1_muTrgObjMatchMed, l2_muTrgObjMatchMed, l1_eleTrgObjMatchMed, l2_eleTrgObjMatchMed;
 
 float covMet11, covMet12, covMet21, covMet22;
 float pfcovMet11, pfcovMet12, pfcovMet21, pfcovMet22;
@@ -79,7 +80,7 @@ void fillTree(TTree * Run_Tree, myevent *m, float cor_eff, float PU_Weight, int 
     Channel = channel;
     Run = m->runNumber;
     Lumi = m->lumiNumber;
-    Event = m->eventNumber;
+    myEvent = m->eventNumber;
     IMass = InvarMass_4(obj1, obj2, obj3, obj3);
     ZMass = InvarMass_2(obj1, obj2);
     HMass = InvarMass_2(obj3, obj3);
@@ -126,6 +127,8 @@ void fillTree(TTree * Run_Tree, myevent *m, float cor_eff, float PU_Weight, int 
     l1Charge = obj1.charge;
     l1_muTrgObjMatch = obj1.hasTrgObject_loose;
     l1_eleTrgObjMatch = obj1.hasTrgObject_loose;
+    l1_muTrgObjMatchMed = obj1.hasTrgObject_medium;
+    l1_eleTrgObjMatchMed = obj1.hasTrgObject_medium;
     l1_passConversionVeto = obj1.passConversionVeto;
     l1_isGsfCtfScPixChargeConsistent = obj1.isGsfCtfScPixChargeConsistent;
     l1_isGsfScPixChargeConsistent = obj1.isGsfScPixChargeConsistent;
@@ -152,6 +155,8 @@ void fillTree(TTree * Run_Tree, myevent *m, float cor_eff, float PU_Weight, int 
     l2Charge = obj2.charge;
     l2_muTrgObjMatch = obj2.hasTrgObject_loose;
     l2_eleTrgObjMatch = obj2.hasTrgObject_loose;
+    l2_muTrgObjMatchMed = obj2.hasTrgObject_medium;
+    l2_eleTrgObjMatchMed = obj2.hasTrgObject_medium;
     l2_passConversionVeto = obj2.passConversionVeto;
     l2_isGsfCtfScPixChargeConsistent = obj2.isGsfCtfScPixChargeConsistent;
     l2_isGsfScPixChargeConsistent = obj2.isGsfScPixChargeConsistent;
