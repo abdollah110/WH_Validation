@@ -76,6 +76,8 @@ int main(int argc, char** argv) {
 
     Run_Tree->SetBranchAddress("l1_muTrgObjMatch", &l1_muTrgObjMatch);
     Run_Tree->SetBranchAddress("l1_eleTrgObjMatch", &l1_eleTrgObjMatch);
+    Run_Tree->SetBranchAddress("l1_muTrgObjMatchMed", &l1_muTrgObjMatchMed);
+    Run_Tree->SetBranchAddress("l1_eleTrgObjMatchMed", &l1_eleTrgObjMatchMed);
     Run_Tree->SetBranchAddress("l1_passConversionVeto", &l1_passConversionVeto);
     Run_Tree->SetBranchAddress("l1_isGsfCtfScPixChargeConsistent", &l1_isGsfCtfScPixChargeConsistent);
     Run_Tree->SetBranchAddress("l1_isGsfScPixChargeConsistent", &l1_isGsfScPixChargeConsistent);
@@ -103,6 +105,8 @@ int main(int argc, char** argv) {
 
     Run_Tree->SetBranchAddress("l2_muTrgObjMatch", &l2_muTrgObjMatch);
     Run_Tree->SetBranchAddress("l2_eleTrgObjMatch", &l2_eleTrgObjMatch);
+    Run_Tree->SetBranchAddress("l2_muTrgObjMatchMed", &l2_muTrgObjMatchMed);
+    Run_Tree->SetBranchAddress("l2_eleTrgObjMatchMed", &l2_eleTrgObjMatchMed);
     Run_Tree->SetBranchAddress("l2_passConversionVeto", &l2_passConversionVeto);
     Run_Tree->SetBranchAddress("l2_isGsfCtfScPixChargeConsistent", &l2_isGsfCtfScPixChargeConsistent);
     Run_Tree->SetBranchAddress("l2_isGsfScPixChargeConsistent", &l2_isGsfScPixChargeConsistent);
@@ -191,12 +195,15 @@ int main(int argc, char** argv) {
     reader_eleEM->AddVariable("numJets20", &numJets20);
 
 
-    TString dir_eleEM = "Weight_emu/";
-    TString prefix_eleEM = "em_wjets_pt10_eid12Medium_h2taucuts_electronInfo_k100.";
+    TString dir_eleEM = "weights_Abdollah/";
+    TString prefix_eleEM = "emt_ele_w_";
+    TString weightfile_eleEM = dir_eleEM + prefix_eleEM  + TString("weights.xml");
+    //    TString dir_eleEM = "Weight_emu/";
+    //    TString prefix_eleEM = "em_wjets_pt10_eid12Medium_h2taucuts_electronInfo_k100.";
+    //    TString weightfile_eleEM = dir_eleEM + prefix_eleEM + TString("KNN.") + TString("weights.xml");
 
     // Book method(s)
     TString methodName_eleEM = TString("KNN") + TString(" method");
-    TString weightfile_eleEM = dir_eleEM + prefix_eleEM + TString("KNN") + TString(".weights.xml");
     reader_eleEM->BookMVA(methodName_eleEM, weightfile_eleEM);
     //        //######################################################
     //    //######################################################
@@ -209,12 +216,15 @@ int main(int argc, char** argv) {
     reader_muEM->AddVariable("numJets20", &numJets20);
 
 
-    TString dir_muEM = "Weight_emu/";
-    TString prefix_muEM = "em_Mwjets_pt10_h2taucuts_muonInfo_k100.";
+    TString dir_muEM = "weights_Abdollah/";
+    TString prefix_muEM = "emt_mu_w_";
+    TString weightfile_muEM = dir_muEM + prefix_muEM  + TString("weights.xml");
+    //    TString dir_muEM = "Weight_emu/";
+    //    TString prefix_muEM = "em_Mwjets_pt10_h2taucuts_muonInfo_k100.";
+//    TString weightfile_muEM = dir_muEM + prefix_muEM + TString("KNN.") + TString("weights.xml");
 
     // Book method(s)
     TString methodName_muEM = TString("KNN") + TString(" method");
-    TString weightfile_muEM = dir_muEM + prefix_muEM + TString("KNN") + TString(".weights.xml");
     reader_muEM->BookMVA(methodName_muEM, weightfile_muEM);
     //        //######################################################
     //    //######################################################
@@ -229,10 +239,12 @@ int main(int argc, char** argv) {
 
     TString dir_muMM = "Weight_mumu/";
     TString prefix_muMM = "mm_wjets_pt10_h2taucuts_muonInfo_k100.";
+    //    TString dir_muMM = "Weight_mumu/";
+    //    TString prefix_muMM = "mm_wjets_pt10_h2taucuts_muonInfo_k100.";
 
     // Book method(s)
     TString methodName_muMM = TString("KNN") + TString(" method");
-    TString weightfile_muMM = dir_muMM + prefix_muMM + TString("KNN") + TString(".weights.xml");
+    TString weightfile_muMM = dir_muMM + prefix_muMM + TString("KNN.") + TString("weights.xml");
     reader_muMM->BookMVA(methodName_muMM, weightfile_muMM);
     //        //######################################################
     //        //TREE FOR MVA
@@ -348,18 +360,20 @@ int main(int argc, char** argv) {
             bool SS_dilep = l1Charge * l2Charge > 0;
             bool Mu1Id = l1_muId > 0;
             bool Mu1Iso = (abs(l1Eta) < 1.479 && l1_muIso < 0.15) || (fabs(l1Eta) > 1.479 && l1_muIso < 0.10);
-            bool Mu1MatchedTrg = l1_muTrgObjMatch || l1_eleTrgObjMatch;
+            bool Mu1MatchedTrg = l1_muTrgObjMatchMed || l2_muTrgObjMatchMed || l1_eleTrgObjMatchMed || l2_eleTrgObjMatchMed;
             bool Ele2Id = l2_eleId > 0;
             bool Ele2Iso = (fabs(l2Eta) < 1.479 && l2_muIso < 0.15) || (fabs(l2Eta) > 1.479 && l2_eleIso < 0.10);
             bool Ele2Conversion = l2_passConversionVeto;
             bool Ele2MissingHit = l2_eleNumHit < 1;
             bool Ele2_chargeConsistancy1 = l2_isGsfCtfScPixChargeConsistent == l2_isGsfCtfChargeConsistent;
             bool Ele2_chargeConsistancy2 = l2_isGsfCtfScPixChargeConsistent == l2_isGsfScPixChargeConsistent;
-            bool Ele2MatchedTrg = l2_eleTrgObjMatch || l2_muTrgObjMatch;
+            bool Ele2MatchedTrg = l2_eleTrgObjMatchMed;
             bool tauIso_1 = l3_tauIso3HitL;
-//                    bool tauIso_2 = l3_tauRejEleMVA3L;
-//            bool tauIso_3 = 1;
-            bool tauIso_3 = l3_tauRejMuL;
+            //                    bool tauIso_2 = l3_tauRejEleMVA3L;
+            //            bool tauIso_3 = 1;
+            //            bool tauIso_3 = l3_tauRejMuL;
+            bool tauIso_3_Tight = (fabs(InvarMass_F(l3E, l1E, l3Px, l1Px, l3Py, l1Py, l3Pz, l1Pz) - 91) < 20 ? l3_tauRejMuT : l3_tauRejMuL);
+            //            bool tauIso_3_Tight = 1;
             bool Mass_m1m2 = InvarMass_F(l1E, l2E, l1Px, l2Px, l1Py, l2Py, l1Pz, l2Pz) > 20;
             float Mass_mu2tau = InvarMass_F(l3E, l1E, l3Px, l1Px, l3Py, l1Py, l3Pz, l1Pz);
             float Mass_ele2tau = InvarMass_F(l3E, l2E, l3Px, l2Px, l3Py, l2Py, l3Pz, l2Pz);
@@ -371,11 +385,12 @@ int main(int argc, char** argv) {
             bool Jest1tau = tau_Size == 1;
             bool OS_Charge_lt = l1Charge * l3Charge < 0;
 
-            bool commonCuts = Jest1tau && OS_Charge_lt && MassReq && Ele2Conversion && Ele2MissingHit && Ele2_chargeConsistancy1 && Ele2_chargeConsistancy2 && SS_dilep && tauIso_1 && tauIso_3 && Mass_m1m2 && l2TauMass ;
+            //            bool commonCuts =  Jest1tau && OS_Charge_lt && MassReq && Ele2Conversion && Ele2MissingHit && Ele2_chargeConsistancy1 && Ele2_chargeConsistancy2 && SS_dilep && tauIso_1 && tauIso_3 && Mass_m1m2 && l2TauMass ;
+            bool commonCuts = Jest1tau && OS_Charge_lt && MassReq && Ele2Conversion && Ele2MissingHit && Ele2_chargeConsistancy1 && Ele2_chargeConsistancy2 && SS_dilep && tauIso_1 && Mass_m1m2 && l2TauMass && tauIso_3_Tight;
             bool selectEMT = commonCuts && Mu1Id && Mu1Iso && Ele2Id && Ele2Iso && Jest1mu && Jest1ele;
             bool selectEMT_Cat0 = commonCuts && (!Mu1Id || !Mu1Iso) && (!Ele2Id || !Ele2Iso);
-            bool selectEMT_Cat1 = commonCuts && (Mu1Id && Mu1Iso) && (!Ele2Id || !Ele2Iso) && Jest1mu;
-            bool selectEMT_Cat2 = commonCuts && (!Mu1Id || !Mu1Iso) && (Ele2Id && Ele2Iso) && Jest1ele;
+            bool selectEMT_Cat1 = commonCuts && (Mu1Id && Mu1Iso) && (!Ele2Id || !Ele2Iso) && Jest1mu && (electron_Size == 0);
+            bool selectEMT_Cat2 = commonCuts && (!Mu1Id || !Mu1Iso) && (Ele2Id && Ele2Iso) && Jest1ele && (mu_Size == 0);
 
 
             // Event Selection
@@ -389,8 +404,8 @@ int main(int argc, char** argv) {
                 fillTreeN(BG_Tree, Channel, 2, VisibleMass, SVMass, Run, Lumi, myEvent, l3Pt, l3Eta, l3_CloseJetPt, l3_CloseJetEta);
                 float weight_mu = KNNforMuon(reader_muEM, l1_CloseJetPt, l1Pt, num_goodjet);
                 float weight_ele = KNNforElectron(reader_eleEM, l2_CloseJetPt, l2Pt, num_goodjet);
-//                float weight_mu = KNNforMuon(reader_muEM, l1Pt + l1_muIso*l1Pt, l1Pt, BareTau_Size + 2);
-//                float weight_ele = KNNforElectron(reader_eleEM, l2Pt + l2_eleIso*l2Pt, l2Pt, BareTau_Size + 2);
+                //                float weight_mu = KNNforMuon(reader_muEM, l1Pt + l1_muIso*l1Pt, l1Pt, BareTau_Size + 2);
+                //                float weight_ele = KNNforElectron(reader_eleEM, l2Pt + l2_eleIso*l2Pt, l2Pt, BareTau_Size + 2);
                 plotFill("EMT", 2, 5, 0, 5, weight_mu * weight_ele);
                 myEvent_Double[2][2] = myEvent;
             }
@@ -398,7 +413,7 @@ int main(int argc, char** argv) {
             if (selectEMT_Cat1 && (myEvent != myEvent_Double[3][2])) {
                 fillTreeN(BG_Tree, Channel, 3, VisibleMass, SVMass, Run, Lumi, myEvent, l3Pt, l3Eta, l3_CloseJetPt, l3_CloseJetEta);
                 float weight_ele = KNNforElectron(reader_eleEM, l2_CloseJetPt, l2Pt, num_goodjet);
-//                float weight_ele = KNNforElectron(reader_eleEM, l2_CloseJetPt, l2Pt, num_goodjet);
+                //                float weight_ele = KNNforElectron(reader_eleEM, l2_CloseJetPt, l2Pt, num_goodjet);
                 plotFill("EMT", 3, 5, 0, 5, weight_ele);
                 myEvent_Double[3][2] = myEvent;
             }
@@ -406,7 +421,7 @@ int main(int argc, char** argv) {
             if (selectEMT_Cat2 && (myEvent != myEvent_Double[4][2])) {
                 fillTreeN(BG_Tree, Channel, 4, VisibleMass, SVMass, Run, Lumi, myEvent, l3Pt, l3Eta, l3_CloseJetPt, l3_CloseJetEta);
                 float weight_mu = KNNforMuon(reader_muEM, l1_CloseJetPt, l1Pt, num_goodjet);
-//                float weight_mu = KNNforMuon(reader_muEM, l1_CloseJetPt, l1Pt, num_goodjet);
+                //                float weight_mu = KNNforMuon(reader_muEM, l1_CloseJetPt, l1Pt, num_goodjet);
                 plotFill("EMT", 4, 5, 0, 5, weight_mu);
                 myEvent_Double[4][2] = myEvent;
             }
@@ -414,39 +429,38 @@ int main(int argc, char** argv) {
 
 
 
-            //        if (Run == 1 && Lumi == 6414 && myEvent == 1923808) { //1111111111111111011
-            //        if (Run == 1 && Lumi == 4722 && myEvent == 1416276) { // ?
-            //        if (Run == 1 && Lumi == 11624 && myEvent == 3486306) { //  1111111111111111011
-            //        if (Run == 1 && Lumi == 3931 && myEvent == 1179002) { //
-            //        if (Run == 1 && Lumi == 13211 && myEvent == 3962445) { // ?
-//            1:6414:1923808
-//            if (Run == 1 && Lumi == 8227 && myEvent == 2467446) { // 111111111111111110
-//            if (Run == 1 && Lumi == 3952 && myEvent == 1185308) { //
-//                if (Run == 1 && Lumi == 4722 && myEvent == 1416276) {
-//if (Run == 1 && Lumi == 13211 && myEvent == 3962445) {
-//if (Run == 1 && Lumi == 3734 && myEvent == 1119716) {
-//if (Run == 1 && Lumi == 8227 && myEvent == 2467446) {
-//if (Run == 1 && Lumi == 86 && myEvent == 25557) {
-//if (Run == 1 && Lumi == 3952 && myEvent == 1185308) {
-//if (Run == 1 && Lumi == 15248 && myEvent == 4573251) {?
-//if (Run == 1 && Lumi == 528 && myEvent == 158151) {?
-//if (Run == 1 && Lumi == 15188 && myEvent == 4555454) {  101111101111101111++++++Mass= 93.2521
-//if (Run == 1 && Lumi == 6204 && myEvent == 1860747) {101111100111001111++++++Mass= 54.8918
-//if (Run == 1 && Lumi == 16461 && myEvent == 4937349) {?
-//if (Run == 1 && Lumi == 7003 && myEvent == 2100294) {?
-//if (Run == 1 && Lumi == 2864 && myEvent == 858957) {?
-//if (Run == 1 && Lumi == 8514 && myEvent == 2553549) {?
-//if (Run == 1 && Lumi == 13174 && myEvent == 3951356) {?
-//if (Run == 1 && Lumi == 849 && myEvent == 254662) {?
-//if (Run == 1 && Lumi == 14640 && myEvent == 4391012) {?
-//if (Run == 1 && Lumi == 13678 && myEvent == 4102416) {?
-//if (Run == 1 && Lumi == 5869 && myEvent == 1760171) {?
-//if (Run == 1 && Lumi == 6127 && myEvent == 1837553) {?
-if (Run == 1 && Lumi == 9632 && myEvent == 2888996) {
 
-                cout << Run << " " << Lumi << " " << myEvent << "\n";
-                cout << Jest1tau << OS_Charge_lt << MassReq << Ele2Conversion << Ele2MissingHit << Ele2_chargeConsistancy1 << Ele2_chargeConsistancy2 << SS_dilep << tauIso_1 << tauIso_3 << Mass_m1m2 << l2TauMass << Mu1Id << Mu1Iso << Ele2Id << Ele2Iso << Jest1mu << Jest1ele;
-                cout << "++++++Mass= " << InvarMass_F(l3E, l2E, l3Px, l2Px, l3Py, l2Py, l3Pz, l2Pz) << "\n";
+
+
+
+
+            //if (Run == 1 && Lumi == 4722 && myEvent == 1416276) {
+            //if (Run == 1 && Lumi == 3734 && myEvent == 1119716) {
+            //if (Run == 1 && Lumi == 8227 && myEvent == 2467446) {  111111111111111110
+            //if (Run == 1 && Lumi == 86 && myEvent == 25557) {
+            //if (Run == 1 && Lumi == 3952 && myEvent == 1185308) {
+            //if (Run == 1 && Lumi == 15248 && myEvent == 4573251) {
+            //if (Run == 1 && Lumi == 528 && myEvent == 158151) {
+            //if (Run == 1 && Lumi == 15188 && myEvent == 4555454) { 101111101111101111
+            if (Run == 1 && Lumi == 6204 && myEvent == 1860747) {
+                //if (Run == 1 && Lumi == 7003 && myEvent == 2100294) {
+                //if (Run == 1 && Lumi == 2864 && myEvent == 858957) {
+                //if (Run == 1 && Lumi == 8514 && myEvent == 2553549) {
+                //if (Run == 1 && Lumi == 13174 && myEvent == 3951356) {
+                //if (Run == 1 && Lumi == 849 && myEvent == 254662) {
+                //if (Run == 1 && Lumi == 14640 && myEvent == 4391012) {
+                //if (Run == 1 && Lumi == 13678 && myEvent == 4102416) {
+                //if (Run == 1 && Lumi == 5869 && myEvent == 1760171) {
+                //if (Run == 1 && Lumi == 6127 && myEvent == 1837553) {
+                //if (Run == 1 && Lumi == 9632 && myEvent == 2888996) {
+                //if (Run == 1 && Lumi == 16461 && myEvent == 4937349) {
+                //if (Run == 1 && Lumi == 13211 && myEvent == 3962445) {
+
+
+
+                cout << Run << " " << Lumi << " " << myEvent << "\t";
+                cout << Jest1tau << OS_Charge_lt << MassReq << Ele2Conversion << Ele2MissingHit << Ele2_chargeConsistancy1 << Ele2_chargeConsistancy2 << SS_dilep << tauIso_1 << Mass_m1m2 << l2TauMass << tauIso_3_Tight << Mu1Id << Mu1Iso << Ele2Id << Ele2Iso << Jest1mu << Jest1ele << "\n";
+                //                cout << "++++++Mass= " << InvarMass_F(l3E, l2E, l3Px, l2Px, l3Py, l2Py, l3Pz, l2Pz) << "\n";
 
             }
 

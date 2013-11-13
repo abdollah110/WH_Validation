@@ -36,12 +36,14 @@ def _Print_RLE(file_,tree_,channel):
                 myTree.GetEntry(entry)
                 if (myTree.Channel_==channel and myTree.subChannel_==1):
                     print int(myTree.Run_),":",int(myTree.Lumi_),":",int(myTree.myEvent_)
+#                    sys.stdout.write('.')
     return 0
     
 
 
 
 if __name__ == "__main__":
-    _Print_RLE("outWZJet.root", "BG_Tree", 2)
+#    _Print_RLE("test_wz.root", "BG_Tree", 2)
+    _Print_RLE("outMuEG_Saturday.root", "BG_Tree", 2)
 
 #    _Print_RLE("test.root", "BG_Tree", 1,"rle_mmt.root")
